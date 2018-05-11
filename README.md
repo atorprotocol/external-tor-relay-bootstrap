@@ -52,3 +52,14 @@ RelayBandwidthBurst 2600 KBytes
 ```
 
 Remember to `systemctl restart tor@default` after making any changes to torrc.
+
+# Making sure it's working by watching pretty graphs
+
+If you want to make sure everything is working, run:
+
+```sh
+sudo -u debian-tor arm
+```
+
+It will take a bit to start, but eventually will show pretty usage graphs (or
+errors that will help you troubleshoot if something is not working).
