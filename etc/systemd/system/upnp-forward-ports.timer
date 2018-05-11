@@ -1,0 +1,10 @@
+[Unit]
+Description=Update UPnP forward leases every 30 minutes
+
+[Timer]
+Unit=upnp-forward-ports.service
+OnBootSec=1min
+OnUnitActiveSec=30min
+
+[Install]
+WantedBy=timers.target

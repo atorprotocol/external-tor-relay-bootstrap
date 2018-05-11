@@ -1,0 +1,9 @@
+[Unit]
+Description=Update UPnP forward leases
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/update-upnp-forwards
+
+[Install]
+WantedBy=multi-user.target

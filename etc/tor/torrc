@@ -10,12 +10,13 @@
 ## If you control multiple relays, include then in the family
 #MyFamily $keyid,$keyid,...
 
+ORPort 443
+DirPort 8080
 
-ORPort 9001
-DirPort 9030
-
-RelayBandwidthRate 30 MBytes
-RelayBandwidthBurst 100 MBytes
+# We assume you have max upload speed of 10 mbps and want to dedicate
+# maximum of half of it to Tor traffic, but allow to burst to all of it.
+RelayBandwidthRate 512 KBytes
+RelayBandwidthBurst 1024 KBytes
 #AccountingMax 32 GB
 #AccountingStart day 00:00
 
