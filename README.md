@@ -1,5 +1,5 @@
-tor-relay-bootstrap
-===================
+tor-relay-bootstrap-rpi
+=======================
 
 This is a script to bootstrap a Raspberry PI to be a set-and-forget Tor relay.
 It assumes it will be running at home behind a residential router that
