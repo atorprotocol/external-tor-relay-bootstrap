@@ -24,7 +24,6 @@ cp $PWD/etc/tor/torrc /etc/tor/torrc
 echo "== Configuring unattended upgrades"
 apt-get install -y unattended-upgrades apt-listchanges
 cp $PWD/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades
-systemctl restart unattended-upgrades
 
 # configure upnpc
 echo "== Configuring port forwarding"
@@ -36,14 +35,16 @@ upnpc -e 'Forward DirPOrt' -r 8080 TCP >/dev/null
 EOF
 chmod a+x /usr/local/bin/update-upnp-forwards
 
-
 cp $PWD/etc/systemd/system/upnp-forward-ports.service /etc/systemd/system/
 cp $PWD/etc/systemd/system/upnp-forward-ports.timer /etc/systemd/system/
 
 systemctl daemon-reload
-systemctl start upnp-forward-ports.timer
+systemctl enable upnp-forward-ports.timer
 
 # final instructions
+echo "== Change pi user password"
+echo "  - Make sure you have changed the default pi user password"
+echo ""
 echo "== Edit /etc/tor/torrc"
 echo "  - Set Address, Nickname, Contact Info, and MyFamily for your Tor relay"
 echo "  - Check your Bandwidth numbers: you probably want half of your residential upload speed"

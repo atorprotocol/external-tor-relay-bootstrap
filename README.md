@@ -1,25 +1,54 @@
 tor-relay-bootstrap
 ===================
 
-This is a script to bootstrap a Debian server to be a set-and-forget Tor relay. I've tested it in Jessie, but it should work on any modern Debian or Ubuntu version. Pull requests are welcome.
+This is a script to bootstrap a Raspberry PI to be a set-and-forget Tor relay.
+It assumes it will be running at home behind a residential router that
+supports UPNP (most of them do).
+
+The script should be used with Raspbian Stretch Lite (tested with 2018-04-18
+release).
 
 tor-relay-bootstrap does this:
 
 * Upgrades all the software on the system
-* Adds the deb.torproject.org repository to apt, so Tor updates will come directly from the Tor Project
-* Installs and configures Tor to be a relay (but still requires you to manually edit torrc to set Nickname, ContactInfo, etc. for this relay)
-* Configures sane default firewall rules
+* Installs and configures Tor to be a relay (but still requires you to manually
+  edit torrc to set Nickname, ContactInfo, etc. for this relay)
 * Configures automatic updates
-* Installs ntp to ensure time is synced (tlsdate is no longer available in Debian stable)
-* Installs monit and activate config to auto-restart all services
-* Helps harden the ssh server
+* Tells your residential router to forward the necessary ports to reach the Tor relay
 * Gives instructions on what the sysadmin needs to manually do at the end
 
-To use it, set up a Debian server, SSH into it, switch to the root user, and:
+To use it, boot up your raspberry PI, login as pi user, then:
 
 ```sh
-apt-get install -y git
-git clone https://github.com/coldhakca/tor-relay-bootstrap.git
-cd tor-relay-bootstrap
-./bootstrap.sh
+sudo apt-get install -y git
+git clone https://github.com/mricon/tor-relay-bootstrap-rpi.git
+cd tor-relay-bootstrap-rpi
+sudo ./bootstrap.sh
 ```
+
+Once it is done, you can disconnect it from keyboard/monitor, plug it into a
+spare ethernet port on your router (or switch), attach the power cable to some
+USB port (there's probably one on the router you can use), and pretty much
+forget about it.
+
+# Adjusting the bandwidth limits
+
+You want to set Tor bandwidth limit to be about half of your residential
+upload max. Here's how to calculate it:
+
+First, find out your upload max:
+https://www.google.com/search?q=speed+test
+
+Click "Run Speed Test" and wait for your upload numbers. Take the "Mbps
+upload" number and multiply it by 128 (we divide by 8 and multiply by 1024).
+E.g. if you got 21.5 Mbps, your maximum upload is 21.5*128 = 2752 KBytes.
+
+You should set your bandwidth limit to about half of that, and burst to close
+to the max (unless you're feeling generous):
+
+```
+RelayBandwidthRate 1300 KBytes
+RelayBandwidthBurst 2600 KBytes
+```
+
+Remember to `systemctl restart tor@default` after making any changes to torrc.
