@@ -27,11 +27,11 @@ sudo ./bootstrap.sh
 ```
 
 Once it is done, you can disconnect it from keyboard/monitor, plug it into a
-spare ethernet port on your router (or switch), attach the power cable to some
-USB port (there's probably one on the router you can use), and pretty much
-forget about it.
+free Ethernet port on your router, attach the rpi power cable to some USB port
+(there's probably one on the router you can use), and pretty much forget about
+it.
 
-# Adjusting the bandwidth limits
+## Adjusting the bandwidth limits
 
 You want to set Tor bandwidth limit to be about half of your residential
 upload max. Here's how to calculate it:
@@ -53,9 +53,9 @@ RelayBandwidthBurst 2600 KBytes
 
 Remember to `systemctl restart tor@default` after making any changes to torrc.
 
-# Making sure it's working by watching pretty graphs
+## Making sure it's working by watching pretty graphs
 
-If you want to make sure everything is working, run:
+If you want to make sure everything is working, as user pi run:
 
 ```sh
 sudo -u debian-tor arm
