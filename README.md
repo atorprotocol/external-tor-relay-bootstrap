@@ -58,6 +58,12 @@ Remember to `systemctl restart tor@default` after making any changes to torrc.
 If you want to make sure everything is working, as user pi run:
 
 ```sh
+sudo -u debian-tor nyx
+```
+
+On older versions the command is:
+
+```sh
 sudo -u debian-tor arm
 ```
 
